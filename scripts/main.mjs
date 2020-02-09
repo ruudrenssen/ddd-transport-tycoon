@@ -3,6 +3,7 @@ import Path from './path.mjs';
 import Truck from './truck.mjs';
 import Ship from './ship.mjs';
 import Cargo from './cargo.mjs';
+import Route from './route.mjs';
 
 // Global variables
 let goodsDelivered = false;
@@ -10,31 +11,24 @@ let time = 0;
 
 // SETUP MAP
 // locations
-const factory = new Location();
-const port = new Location();
-const warehouseA = new Location();
-const warehouseB = new Location();
+const factory = new Location('factory');
+const port = new Location('port');
+const warehouseA = new Location('warehouse a');
+const warehouseB = new Location('warehouse b');
+const locations = [factory, port, warehouseA, warehouseB]
+
 // paths
-const factoryToPort = new Path(factory, port, 1, 'road');
-const factoryToWarehouseB = new Path(factory, port, 5, 'road');
-const portToWarehouseA = new Path(port, warehouseA, 4, 'water');
+const factoryPort = new Path(factory, port, 1, 'road');
+const factoryWarehouseB = new Path(factory, port, 5, 'road');
+const portWarehouseA = new Path(port, warehouseA, 4, 'water');
 
 // SETUP TRANSPORTATION
-const truckA = new Truck(factoryToPort.positions[0]);
-const truckB = new Truck(factoryToPort.positions[0]);
-const shipA = new Ship(portToWarehouseA.positions[0]);
+const truckA = new Truck(factory);
+const truckB = new Truck(factory);
+const shipA = new Ship(port);
 
-// SETUP CARGO
-const allCargo = [
-    new Cargo(factory, warehouseA),
-    new Cargo(factory, warehouseB),
-    new Cargo(factory, warehouseB)
-]
-// distribute cargo
-allCargo.forEach(cargo => {
-    cargo.position.load(cargo);
-});
+while (!goodsDelivered && time < 15) {
+    time++;
+}
 
-// while (!goodsDelivered && time < 1000) {
-//     time++;
-// }
+console.log('time passed: ', time)

@@ -1,8 +1,8 @@
 import Vihicle from "./vihicle.mjs";
 
 class Ship extends Vihicle {
-    constructor(position) {
-        super(position, 'water');
+    constructor(location) {
+        super(location, 'water');
     }
 }
 

@@ -1,18 +1,15 @@
-class Location {
-    constructor() {
+class Location extends EventTarget {
+    constructor(name) {
+        super();
+        this.name = name;
         this.supplyLine = [];
+        this.vihicles = [];
+
+        // Events: vihicleArrived
     }
 
-    load(cargo) {
-        this.supplyLine.push(cargo);
-    }
-
-    offload() {
-        return this.supplyLine.shift();
-    }
-
-    update() {
-        
+    addVihicle(vihicle) {
+        this.vihicles.push(vihicle);
     }
 }
 

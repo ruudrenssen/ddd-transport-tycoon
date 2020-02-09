@@ -1,22 +1,16 @@
-class Vihicle {
-    constructor(position, terrain) {
+class Vihicle extends EventTarget {
+    constructor(location, terrain) {
+        super();
         this.cargo = null;
-        this.position = position;
+        this.location = location;
         this.terrain = terrain;
+        this.desination = null;
     }
 
-    load(cargo) {
-        this.cargo = cargo;
-    }
-
-    offload(cargo) {
-        const load = this.cargo;
-        this.cargo = null;
-        return load;
-    }
-
-    update() {
-        
+    move() {
+        if(this.location == this.desination) {
+            this.dispatchEvent(new Event('desinationReached'));
+        }
     }
 }
 

@@ -1,12 +1,9 @@
-class Cargo {
-    // Attributes: destination (Location), position (Location)
-    constructor(position, destination) {
+class Cargo extends EventTarget {
+    constructor(destination) {
+        super();
         this.destination = destination;
-        this.position = position;
-    }
 
-    update() {
-        
+        // Events: cargoArrived
     }
 }
 

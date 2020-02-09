@@ -3,10 +3,6 @@ class Position {
         this.path = path;
         this.position = position;
     }
-
-    update() {
-        
-    }
 }
 
 export default Position;

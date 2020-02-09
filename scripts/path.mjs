@@ -12,10 +12,6 @@ class Path {
             this.positions.push(position);
         };
     }
-
-    update() {
-        
-    }
 }
 
 export default Path;
