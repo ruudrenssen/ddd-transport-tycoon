@@ -3,7 +3,6 @@ import Path from './path.mjs';
 import Truck from './truck.mjs';
 import Ship from './ship.mjs';
 import Supply from './supply.mjs';
-import Route from './route.mjs';
 
 // Global variables
 let goodsDelivered = false;
@@ -21,23 +20,20 @@ const locations = [factory, port, warehouseA, warehouseB]
 const pathFactoryPort = new Path(factory, port, 1, 'road');
 const pathFactoryWarehouseB = new Path(factory, port, 5, 'road');
 const pathPortWarehouseA = new Path(port, warehouseA, 4, 'water');
-
-//routes
-const routeA = new Route(pathFactoryPort, pathPortWarehouseA);
-const routeB = new Route(pathFactoryWarehouseB);
-const routes = [routeA, routeB];
+const roads = [pathFactoryPort, pathFactoryWarehouseB];
+const waterWays = [pathPortWarehouseA];
 
 // SETUP TRANSPORTATION
-const truckA = new Truck(factory);
-const truckB = new Truck(factory);
-const shipA = new Ship(port);
+const truckA = new Truck(factory, roads);
+const truckB = new Truck(factory, roads);
+const shipA = new Ship(port, waterWays);
 const vihicles = [truckA, truckB, shipA];
 
 factory.addVihicle([truckA, truckB]);
 port.addVihicle([shipA]);
 
 // SETUP SUPPLIES
-const supplies = [new Supply(warehouseA), new Supply(warehouseA), new Supply(warehouseB)];
+const supplies = [new Supply(warehouseA), new Supply(warehouseB), new Supply(warehouseB)];
 factory.addSupply(supplies);
 
 while (!goodsDelivered && time < 100) {
@@ -49,7 +45,6 @@ while (!goodsDelivered && time < 100) {
                 // load cargo onto vihicle
                 let vihicle = location.getVihicle();
                 vihicle.load(supply);
-                console.log(vihicle.__proto__.constructor.name, ':', vihicle.__proto__.constructor, )
             }
         }
     });
