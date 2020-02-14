@@ -9,7 +9,7 @@ class Path {
 
         for(let i = 0; i <= distance; i++) {
             let position = new Position(this, i);
-            this.positions.push(position);
+            this.positions.push(this, position);
         };
     }
 }
