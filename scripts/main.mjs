@@ -49,6 +49,7 @@ while (!goodsDelivered && time < 100) {
                 // load cargo onto vihicle
                 let vihicle = location.getVihicle();
                 vihicle.load(supply);
+                console.log(vihicle.__proto__.constructor.name, ':', vihicle.__proto__.constructor, )
             }
         }
     });
