@@ -1,13 +1,9 @@
-import Route from './route.mjs';
-
-class Vihicle extends EventTarget {
-    constructor(location, paths, terrain) {
-        super();
+class Vihicle {
+    constructor(location, terrain) {
         this.cargo = null;
         this.location = location;
         this.terrain = terrain;
         this.destination = null;
-        this.routes = paths;
         this.route = null;
         this.position = null;
     }
@@ -24,7 +20,7 @@ class Vihicle extends EventTarget {
         return tempCargo;
     }
 
-    atDestination() {
+    hasArrived() {
         return this.location === this.destination;
     }
 
@@ -34,11 +30,6 @@ class Vihicle extends EventTarget {
 
     setDestination(destination) {
         this.destination = destination;
-        this.routes.forEach(route => {
-            route.positions.forEach(position => {
-                console.log(position);
-            })         
-        });
     }
 }
 

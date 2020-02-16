@@ -1,6 +1,5 @@
-class Supply extends EventTarget {
+class Supply {
     constructor(destination) {
-        super();
         this.location = null;
         this.destination = destination;
     }

@@ -1,6 +1,5 @@
-class Location extends EventTarget {
+class Location {
     constructor(name) {
-        super();
         this.name = name;
         this.supplyLine = [];
         this.vihicles = [];
