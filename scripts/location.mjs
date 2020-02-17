@@ -22,10 +22,14 @@ class Location {
     addSupply(supplies) {
         if(Array.isArray(supplies)) {
             supplies.forEach(supply => {
-                this.supplyLine.push(supply);
+                if(supply.destination != this) {
+                    this.supplyLine.push(supply);
+                }
             })
         } else {
-            this.supplyLine.push(supplies);
+            if(supplies.destination != this) {
+                this.supplyLine.push(supplies);
+            }
         }
     }
 
