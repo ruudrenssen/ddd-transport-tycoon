@@ -6,16 +6,16 @@ class Graph {
 
   addNode(node) {
     this.nodes.push(node);
-    this.adjacencyList[node] = [];
+    this.adjacencyList[node.name] = [];
   }
 
-  addEdge(node1, node2, weight, terrain) {
-    this.adjacencyList[node1].push({
+  addEdge(node1, node2, weight, terrain = 'road') {
+    this.adjacencyList[node1.name].push({
       node: node2,
       weight: weight,
       terrain: terrain
     });
-    this.adjacencyList[node2].push({
+    this.adjacencyList[node2.name].push({
       node: node1,
       weight: weight,
       terrain: terrain
@@ -27,11 +27,11 @@ class Graph {
     let backtrace = {};
     let pq = new PriorityQueue();
 
-    times[startNode] = 0;
+    times[startNode.name] = 0;
 
     this.nodes.forEach(node => {
       if (node !== startNode) {
-        times[node] = Infinity
+        times[node.name] = Infinity
       }
     });
 
@@ -39,11 +39,11 @@ class Graph {
     while (!pq.isEmpty()) {
       let shortestStep = pq.dequeue();
       let currentNode = shortestStep[0];
-      this.adjacencyList[currentNode].forEach(neighbor => {
-        let time = times[currentNode] + neighbor.weight;
-        if (time < times[neighbor.node]) {
-          times[neighbor.node] = time;
-          backtrace[neighbor.node] = currentNode;
+      this.adjacencyList[currentNode.name].forEach(neighbor => {
+        let time = times[currentNode.name] + neighbor.weight;
+        if (time < times[neighbor.node.name]) {
+          times[neighbor.node.name] = time;
+          backtrace[neighbor.node.name] = currentNode;
           pq.enqueue([neighbor.node, time]);
         }
       });
@@ -52,11 +52,11 @@ class Graph {
     let path = [endNode];
     let lastStep = endNode;
     while(lastStep !== startNode) {
-      path.unshift(backtrace[lastStep])
-      lastStep = backtrace[lastStep]
+      path.unshift(backtrace[lastStep.name])
+      lastStep = backtrace[lastStep.name]
     }
 
-    return `Path is ${path} and time is ${times[endNode]}`
+    return `Path is ${path} and time is ${times[endNode.name]}`
   }
 }
 
