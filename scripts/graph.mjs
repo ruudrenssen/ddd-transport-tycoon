@@ -6,16 +6,16 @@ class Graph {
 
   addNode(node) {
     this.nodes.push(node);
-    this.adjacencyList[node.name] = [];
+    this.adjacencyList[node.id] = [];
   }
 
   addEdge(node1, node2, weight, terrain = 'road') {
-    this.adjacencyList[node1.name].push({
+    this.adjacencyList[node1.id].push({
       node: node2,
       weight: weight,
       terrain: terrain
     });
-    this.adjacencyList[node2.name].push({
+    this.adjacencyList[node2.id].push({
       node: node1,
       weight: weight,
       terrain: terrain
@@ -27,11 +27,11 @@ class Graph {
     let backtrace = {};
     let pq = new PriorityQueue();
 
-    times[startNode.name] = 0;
+    times[startNode.id] = 0;
 
     this.nodes.forEach(node => {
       if (node !== startNode) {
-        times[node.name] = Infinity
+        times[node.id] = Infinity
       }
     });
 
@@ -39,24 +39,24 @@ class Graph {
     while (!pq.isEmpty()) {
       let shortestStep = pq.dequeue();
       let currentNode = shortestStep[0];
-      this.adjacencyList[currentNode.name].forEach(neighbor => {
-        let time = times[currentNode.name] + neighbor.weight;
-        if (time < times[neighbor.node.name]) {
-          times[neighbor.node.name] = time;
-          backtrace[neighbor.node.name] = currentNode;
+      this.adjacencyList[currentNode.id].forEach(neighbor => {
+        let time = times[currentNode.id] + neighbor.weight;
+        if (time < times[neighbor.node.id]) {
+          times[neighbor.node.id] = time;
+          backtrace[neighbor.node.id] = currentNode;
           pq.enqueue([neighbor.node, time]);
         }
       });
     }
 
-    let path = [endNode];
+    let route = [endNode];
     let lastStep = endNode;
     while(lastStep !== startNode) {
-      path.unshift(backtrace[lastStep.name])
-      lastStep = backtrace[lastStep.name]
+      route.unshift(backtrace[lastStep.id])
+      lastStep = backtrace[lastStep.id]
     }
 
-    return `Path is ${path} and time is ${times[endNode.name]}`
+    return route;
   }
 }
 

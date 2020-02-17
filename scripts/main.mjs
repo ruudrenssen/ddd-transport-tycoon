@@ -3,16 +3,16 @@ import Graph from './graph.mjs';
 
 const factory = new Location('factory');
 const port = new Location('port');
-const warehouseA = new Location('warehouse a');
-const warehouseB = new Location('warehouse b');
+const warehouseA = new Location('warehouseA');
+const warehouseB = new Location('warehouseB');
 
 let map = new Graph();
 map.addNode(factory);
 map.addNode(port);
 map.addNode(warehouseA);
 map.addNode(warehouseB);
-map.addEdge(factory, port, 1);
-map.addEdge(factory, warehouseB, 5);
-map.addEdge(port, warehouseA, 4);
+map.addEdge(factory, port, 1, 'road');
+map.addEdge(factory, warehouseB, 5, 'road');
+map.addEdge(port, warehouseA, 4, 'water');
 
-console.log(map.getRoute(warehouseA, warehouseB));
+console.log('route:', map.getRoute(warehouseA, warehouseB));

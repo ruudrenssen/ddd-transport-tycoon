@@ -1,6 +1,6 @@
 class Location {
-    constructor(name) {
-        this.name = name;
+    constructor(id) {
+        this.id = id;
         this.supplyLine = [];
         this.vihicles = [];
     }
