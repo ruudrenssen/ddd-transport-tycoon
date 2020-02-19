@@ -1,8 +1,8 @@
 import Vihicle from "./vihicle.mjs";
 
 class Truck extends Vihicle {
-    constructor() {
-        super('road');
+    constructor(map) {
+        super(map, 'road');
     }
 }
 

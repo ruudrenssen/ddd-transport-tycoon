@@ -1,11 +1,10 @@
 class Supply {
     constructor(destination) {
-		this.destination = destination;
-        this.location = null;
+        this.destination = destination;
     }
 
-    setLocation(location) {
-        this.location = location;
+    update() {
+
     }
 }
 
