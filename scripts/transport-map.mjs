@@ -1,37 +1,39 @@
-class Map {
+class TransportMap extends EventTarget {
 	constructor() {
+		super();
 		this.locations = [];
-		this.adjacencyList = {};
+		this.paths = {};
 	}
 
 	addLocation(location) {
 		this.locations.push(location);
-		this.adjacencyList[location.id] = [];
+		this.paths[location.name] = [];
 	}
 
-	addPath(location1, location2, weight, terrain = "road") {
-		this.adjacencyList[location1.id].push({
+	addPath(location1, location2, time, terrain = "road") {
+		this.paths[location1.name].push({
 			location: location2,
-			weight: weight,
+			time: time,
 			terrain: terrain
 		});
-		this.adjacencyList[location2.id].push({
+		this.paths[location2.name].push({
 			location: location1,
-			weight: weight,
+			time: time,
 			terrain: terrain
 		});
 	}
 
 	getRoute(startLocation, endLocation) {
+		console.log('get route for', endLocation);
 		let times = {};
 		let backtrace = {};
 		let pq = new PriorityQueue();
 
-		times[startLocation.id] = 0;
+		times[startLocation.name] = 0;
 
 		this.locations.forEach(location => {
 			if (location !== startLocation) {
-				times[location.id] = Infinity;
+				times[location.name] = Infinity;
 			}
 		});
 
@@ -39,11 +41,12 @@ class Map {
 		while (!pq.isEmpty()) {
 			let shortestStep = pq.dequeue();
 			let currentLocation = shortestStep[0];
-			this.adjacencyList[currentLocation.id].forEach(neighbor => {
-				let time = times[currentLocation.id] + neighbor.weight;
-				if (time < times[neighbor.location.id]) {
-					times[neighbor.location.id] = time;
-					backtrace[neighbor.location.id] = currentLocation;
+			this.paths[currentLocation.name].forEach(neighbor => {
+				let time = times[currentLocation.name] + neighbor.time;
+				if (time < times[neighbor.location.name]) {
+					neighbor.location.time = neighbor.time;
+					times[neighbor.location.name] = time;
+					backtrace[neighbor.location.name] = currentLocation;
 					pq.enqueue([neighbor.location, time]);
 				}
 			});
@@ -52,15 +55,16 @@ class Map {
 		let route = [endLocation];
 		let lastStep = endLocation;
 		while (lastStep !== startLocation) {
-			route.unshift(backtrace[lastStep.id]);
-			lastStep = backtrace[lastStep.id];
+			route.unshift(backtrace[lastStep.name]);
+			lastStep = backtrace[lastStep.name];
 		}
 
 		return route;
 	}
 
-	getPath(startLocation, endLocation) {
-		return this.adjacencyList[startLocation.id].find((path) => path.location === endLocation);
+	getNextPath(startLocation, endLocation) {
+		console.log('get next path for', endLocation);
+		return this.getRoute(startLocation, this.getRoute(startLocation, endLocation)[1]);
 	}
 }
 
@@ -97,4 +101,4 @@ class PriorityQueue {
 	}
 }
 
-export default Map;
+export default TransportMap;

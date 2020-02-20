@@ -1,22 +1,17 @@
+import World from "./world.mjs";
+import TransportMap from './transport-map.mjs';
 import Location from './location.mjs';
-import Map from './map.mjs';
 import Truck from './truck.mjs';
 import Ship from './ship.mjs';
-import Supply from './supply.mjs';
+import Good from './good.mjs';
 
-// globals
-const goodsDelivered = false;
-let time = 0;
-
-// CONFIGURATIONS
-// locations
+// Configure map
 const factory = new Location('factory');
 const port = new Location('port');
 const warehouseA = new Location('warehouseA');
 const warehouseB = new Location('warehouseB');
-const locations = [factory, port, warehouseA, warehouseB];
 
-let map = new Map();
+const map = new TransportMap();
 map.addLocation(factory);
 map.addLocation(port);
 map.addLocation(warehouseA);
@@ -25,26 +20,16 @@ map.addPath(factory, port, 1, 'road');
 map.addPath(factory, warehouseB, 5, 'road');
 map.addPath(port, warehouseA, 4, 'water');
 
-const supplies = [new Supply(warehouseA), new Supply(warehouseA), new Supply(warehouseB)];
-factory.addSupplies(supplies);
+const truckA = new Truck('Truck A');
+const truckB = new Truck('Truck B');
+const shipA = new Ship('Ship A');
 
-const truckA = new Truck(map);
-const truckB = new Truck(map);
-const shipA = new Ship(map);
-const vihicles = [truckA, truckB, shipA];
+const locations = [factory, port, warehouseA, warehouseB]
+const vehicles = [truckA, truckB, shipA];
+const goods = [new Good(warehouseA), new Good(warehouseA), new Good(warehouseB)];
 
-factory.addVihicles([truckA, truckB]);
-port.addVihicles([shipA]);
+new World(map, {'locations': locations, 'vehicles': vehicles, 'goods': goods});
 
-while(!goodsDelivered && time < 100) {
-    time++;
-    locations.forEach(location => {
-        location.update();
-    });
-    vihicles.forEach(vihicle => {
-        vihicle.update();
-    });
-    supplies.forEach(supply => {
-        supply.update();
-    })
-}
+factory.addGoods(goods);
+factory.addVehicles([truckA, truckB]);
+port.addVehicles([shipA]);

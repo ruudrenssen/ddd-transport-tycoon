@@ -1,5 +1,6 @@
-class Supply {
+class Good extends EventTarget {
     constructor(destination) {
+        super();
         this.destination = destination;
     }
 
@@ -8,4 +9,4 @@ class Supply {
     }
 }
 
-export default Supply;
+export default Good;

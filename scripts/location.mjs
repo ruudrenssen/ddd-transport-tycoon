@@ -1,27 +1,42 @@
 class Location extends EventTarget {
-    constructor(id) {
+    constructor(name) {
         super();
-        this.id = id;
-        this.supplyLine = [];
+        this.name = name;
+        this.goods = [];
         this.vihicles = [];
     }
 
     update() {
-        // update each location per time unit:
-        if(this.supplyLine.length > 0 && this.vihicles.length > 0) {
-            // vihicles AND supplies ready:
-            // load cargo onto vihicle
-            const vihicle = this.getVihicle();
-            const cargo = this.getSupply();
-            vihicle.load(cargo);
-        }
+        console.log('update', this.name);
     }
 
     getVihicle() {
+        console.log('get vehicle', this.name, 'from', this.name);
         return this.vihicles.shift();
     }
 
-    addVihicles(vihicles) {
+    addVihicle(vihicle) {
+        console.log('add', vihicle.name, 'to', this.name);
+        vihicle.parkAt(this);
+        this.vihicles.push(vihicle);
+    }
+
+    getGood() {
+        if(this.goods.length > 0) {
+            const good = this.goods.shift();;
+            console.log('getting good for', good.destination.name)
+            return good;
+        } else {
+            return false;
+        }
+    }
+
+    addGood(good) {
+        console.log('adding good for', good.destination.name, 'to', this.name);
+        this.goods.push(good);
+    }
+
+    addVehicles(vihicles) {
         if(Array.isArray(vihicles)) {
             vihicles.forEach(vihicle => {
                 this.addVihicle(vihicle);
@@ -31,51 +46,14 @@ class Location extends EventTarget {
         }
     }
 
-    addVihicle(vihicle) {
-        vihicle.addEventListener('vihicle-arrived', this.onArrival.bind(this));
-        vihicle.addEventListener('cargo-loaded', this.onCargoLoaded.bind(this));
-        vihicle.addEventListener('cargo-unloaded', this.onCargoUnloaded.bind(this));
-        vihicle.setLocation(this);
-        this.vihicles.push(vihicle);
-    }
-
-    addSupplies(supplies) {
-        if(Array.isArray(supplies)) {
-            supplies.forEach(supply => {
-                this.addSupply(supply);
+    addGoods(goods) {
+        if(Array.isArray(goods)) {
+            goods.forEach(supply => {
+                this.addGood(supply);
             });
         } else {
-            this.addSupply(supplies);
+            this.addGood(goods);
         }
-    }
-
-    addSupply(supply) {
-        this.supplyLine.push(supply);
-    }
-
-    getSupply() {
-        return this.supplyLine.shift();
-    }
-
-    onArrival(event) {
-        const vihicle = event.target;
-        if(vihicle.cargo) {
-            // has cargo, unload it
-        } else {
-            // has no cargo, load it
-            const cargo = this.getSupply();
-            if(cargo) {
-                vihicle.load(cargo);
-            }
-        }
-    }
-
-    onCargoLoaded(event) {
-        console.log(event.type);
-    }
-
-    onCargoUnloaded(event) {
-        console.log(event.type);
     }
 }
 

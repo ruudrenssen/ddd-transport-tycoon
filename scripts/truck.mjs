@@ -1,8 +1,8 @@
-import Vihicle from "./vihicle.mjs";
+import Vehicle from "./vehicle.mjs";
 
-class Truck extends Vihicle {
-    constructor(map) {
-        super(map, 'road');
+class Truck extends Vehicle {
+    constructor(name) {
+        super(name, 'road');
     }
 }
 
