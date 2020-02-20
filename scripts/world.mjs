@@ -17,12 +17,24 @@ class World extends EventTarget {
 		})
 
 		while(!this.goodsDelivered && this.time < 100) {
-			this.time++;
+			this.update();
 		}
 	}
 
 	update() {
+		this.time++;
 
+		this.locations.forEach(location => {
+			location.update();
+		});
+
+		this.vihicles.forEach(vihicle => {
+			vihicle.update();
+		});
+
+		this.goods.forEach(good => {
+			good.update();
+		});
 	}
 
 	onVehicleArrived(event) {
